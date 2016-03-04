@@ -1,9 +1,9 @@
 
-setwd("C:\\Users\\zcapozzi002\\Documents\\GitHub\\Cleaning_Data_Course_Project")
-
+#setwd("C:\\Users\\zcapozzi002\\Documents\\GitHub\\Cleaning_Data_Course_Project")
 #download.file("https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip", destfile="project_data.zip")
 #unzip("project_data.zip")
 
+# 0. Loading data
 features <- read.delim("UCI HAR Dataset\\features.txt", sep="\n", header=FALSE)
 features_info <- read.delim("UCI HAR Dataset\\features_info.txt", sep="\n", header = TRUE, skip = 2)
 activity_labels <- read.delim("UCI HAR Dataset\\activity_labels.txt", sep="\n", header = FALSE)
@@ -19,71 +19,12 @@ subject_test <- read.table("UCI HAR Dataset\\test\\subject_test.txt") # person s
 y_test <- read.table("UCI HAR Dataset\\test\\y_test.txt") # the activity they were doing
 
 
-#total_acc_x_train <- read.table("UCI HAR Dataset\\train\\Inertial Signals\\total_acc_x_train.txt", header=FALSE)
-#body_acc_x_train <- read.table("UCI HAR Dataset\\train\\Inertial Signals\\body_acc_x_train.txt", header=FALSE)
-#body_gyro_x_train <- read.table("UCI HAR Dataset\\train\\Inertial Signals\\body_gyro_x_train.txt", header=FALSE)
-
-#total_acc_y_train <- read.table("UCI HAR Dataset\\train\\Inertial Signals\\total_acc_y_train.txt", header=FALSE)
-#body_acc_y_train <- read.table("UCI HAR Dataset\\train\\Inertial Signals\\body_acc_y_train.txt", header=FALSE)
-#body_gyro_y_train <- read.table("UCI HAR Dataset\\train\\Inertial Signals\\body_gyro_y_train.txt", header=FALSE)
-
-#total_acc_z_train <- read.table("UCI HAR Dataset\\train\\Inertial Signals\\total_acc_z_train.txt", header=FALSE)
-#body_acc_z_train <- read.table("UCI HAR Dataset\\train\\Inertial Signals\\body_acc_z_train.txt", header=FALSE)
-#body_gyro_z_train <- read.table("UCI HAR Dataset\\train\\Inertial Signals\\body_gyro_z_train.txt", header=FALSE)
-
-#head(total_acc_x_train)
-#head(body_acc_x_train)
-#head(body_gyro_x_train)
-
-#head(total_acc_y_train)
-#head(body_acc_y_train)
-#head(body_gyro_y_train)
-
-#head(total_acc_z_train)
-#head(body_acc_z_train)
-#head(body_gyro_z_train)
-
-
-#total_acc_x_test <- read.table("UCI HAR Dataset\\test\\Inertial Signals\\total_acc_x_test.txt", header=FALSE)
-#body_acc_x_test <- read.table("UCI HAR Dataset\\test\\Inertial Signals\\body_acc_x_test.txt", header=FALSE)
-#body_gyro_x_test <- read.table("UCI HAR Dataset\\test\\Inertial Signals\\body_gyro_x_test.txt", header=FALSE)
-
-#total_acc_y_test <- read.table("UCI HAR Dataset\\test\\Inertial Signals\\total_acc_y_test.txt", header=FALSE)
-#body_acc_y_test <- read.table("UCI HAR Dataset\\test\\Inertial Signals\\body_acc_y_test.txt", header=FALSE)
-#body_gyro_y_test <- read.table("UCI HAR Dataset\\test\\Inertial Signals\\body_gyro_y_test.txt", header=FALSE)
-
-#total_acc_z_test <- read.table("UCI HAR Dataset\\test\\Inertial Signals\\total_acc_z_test.txt", header=FALSE)
-#body_acc_z_test <- read.table("UCI HAR Dataset\\test\\Inertial Signals\\body_acc_z_test.txt", header=FALSE)
-#body_gyro_z_test <- read.table("UCI HAR Dataset\\test\\Inertial Signals\\body_gyro_z_test.txt", header=FALSE)
-
-#head(total_acc_x_test)
-#head(body_acc_x_test)
-#head(body_gyro_x_test)
-
-#head(total_acc_y_test)
-#head(body_acc_y_test)
-#head(body_gyro_y_test)
-
-#head(total_acc_z_test)
-#head(body_acc_z_test)
-#head(body_gyro_z_test)
-
 
 # 1. Merges the training and the test sets to create one data set.
 
 x_test_and_train <- rbind(x_test, x_train)
 y_test_and_train <- rbind(y_test, y_train)
 subject_test_and_train <- rbind(subject_test, subject_train)
-
-#total_acc_x_test_and_train <- rbind(total_acc_x_test, total_acc_x_train)
-#total_acc_y_test_and_train <- rbind(total_acc_y_test, total_acc_y_train)
-#total_acc_z_test_and_train <- rbind(total_acc_z_test, total_acc_z_train)
-#body_acc_x_test_and_train <- rbind(body_acc_x_test, body_acc_x_train)
-#body_acc_y_test_and_train <- rbind(body_acc_y_test, body_acc_y_train)
-#body_acc_z_test_and_train <- rbind(body_acc_z_test, body_acc_z_train)
-#body_gyro_x_test_and_train <- rbind(body_gyro_x_test, body_gyro_x_train)
-#body_gyro_y_test_and_train <- rbind(body_gyro_y_test, body_gyro_y_train)
-#body_gyro_z_test_and_train <- rbind(body_gyro_z_test, body_gyro_z_train)
 
 x_test_and_train_w_sub_act = cbind(x_test_and_train, subject_test_and_train)
 x_test_and_train_w_sub_act = cbind(x_test_and_train_w_sub_act, y_test_and_train)
@@ -109,16 +50,13 @@ activities[3, 'activity_name'] = "WALKING_DOWNSTAIRS"
 activities[4, 'activity_name'] = "SITTING"
 activities[5, 'activity_name'] = "STANDING"
 activities[6, 'activity_name'] = "LAYING"
-activities
 
 y_test_and_train_w_activities = merge(y_test_and_train, activities, by.x='V1', by.y='ID')
 
 # 4. Appropriately labels the data set with descriptive variable names.
 
 var_names = as.vector(features$V1)
-class(var_names)
 names(x_test_and_train_w_sub_act) = c(var_names, 'Subject_ID', 'Activity_ID')
-names(x_test_and_train_w_sub_act)
 
 # 5. From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
 
