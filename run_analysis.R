@@ -68,3 +68,4 @@ merged <- merge(activities, agg, by.x='ID', by.y='Grouped_Activity_ID')
 cols = c(2:564)
 final = subset(merged, select=cols)
 
+write.table(final, "final.txt", row.names=FALSE)
